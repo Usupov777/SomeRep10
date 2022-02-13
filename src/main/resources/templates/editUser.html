@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User</title>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Sign Out</button>
+    </form>
+</head>
+<body>
+<form th:action="@{/admin/editUser/{id}}"
+      th:object="${user}" method="POST">
+    <input type="hidden" th:field="*{id}">
+    Name:
+    <input type="text" th:field="*{username}" />
+    <br/>
+    Surname:
+    <input type="text" th:field="*{password}">
+    <br/>
+    Age:
+    <input type="text" th:field="*{email}">
+    <br/>
+    Roles:
+    <td th:each="role : ${roleSet}">
+        <div>
+            <input type="checkbox" th:name="${roleSet}" th:checked="${#lists.contains(user.roles, role)}"
+                   th:utext="${role}">
+        </div>
+    </td>
+    <input type="submit" value="Edit">
+</form>
+
+<br/>
+
+<a href="/admin/">Users table</a>
+</body>
+</html>
