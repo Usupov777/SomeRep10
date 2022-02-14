@@ -1,9 +1,7 @@
 package ru.kata.spring.boot_security.demo.model;
 
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +15,8 @@ import java.util.Set;
 @Accessors(chain = true)
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,12 +57,12 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(email, user.email) && username.equals(user.username) && password.equals(user.password);
+        return Objects.equals(email, user.email) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, username, password);
+        return Objects.hash(email, getUsername(), getPassword(), roles);
     }
 
     @Override

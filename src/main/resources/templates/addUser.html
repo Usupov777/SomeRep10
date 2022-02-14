@@ -23,7 +23,7 @@
     <br/>
     <br/>
     <p>Enter Roles:</p>
-    <input type="checkbox" name="role_authorities" th:each="role : ${roleSet}" th:text="${role.name}" th:value="${role.name}"/>
+    <input type="checkbox" name="role_authorities" th:each="role : ${roleSet}" th:text="${role.name}" th:value="${role.id}"/>
 
     <input type="submit" value="Create"/>
 </form>

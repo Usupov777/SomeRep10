@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService{
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -32,7 +32,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
     public boolean add(User user){
-        User userFromDB = userRepository.findByUsername(user.getUsername());
+        User userFromDB = userRepository.findUserByUsername(user.getUsername());
 
         if (userFromDB != null) {
             return false;
@@ -50,20 +50,18 @@ public class UserService implements UserDetailsService {
     public User getById(int id){
         return userRepository.getById(id);
     }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username);
+    public User findUserByUsername(String username){
+        return userRepository.findUserByUsername(username);
     }
 
     public Set<Role> allRoles(){
         return new HashSet<>(roleRepository.findAll());
     }
 
-    public Set<Role> getSetOfRoles(List<String> role_string) {
+    public Set<Role> getSetOfRoles(List<Integer> role_id) {
         Set<Role> roles = new HashSet<>();
-        for (String roleOfName : role_string) {
-            roles.add(roleRepository.findRoleByName(roleOfName));
+        for (Integer idOfRole : role_id) {
+            roles.add(roleRepository.findRoleById(idOfRole));
         }
         return roles;
     }

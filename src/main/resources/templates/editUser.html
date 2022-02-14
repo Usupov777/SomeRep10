@@ -25,7 +25,7 @@
     <br/>
     <p>Enter Roles:</p>
     <input type="checkbox" name="role_authorities" th:each="role :${roleSet}" th:text="${role.name}"
-           th:value="${role.name}" th:checked="${user.roles.contains(role)}"
+           th:value="${role.id}" th:checked="${user.roles.contains(role)}"
     />
     <br/>
     <br/>

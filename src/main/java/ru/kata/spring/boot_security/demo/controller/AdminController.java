@@ -41,10 +41,10 @@ public class AdminController {
     }
     @PostMapping("/addUser")
     public String saveUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                           @RequestParam ("role_authorities") List<String> role_value){
+                           @RequestParam ("role_authorities") List<Integer> role_id){
         if (bindingResult.hasErrors())
             return "addUser";
-        user.setRoles(userService.getSetOfRoles(role_value));
+        user.setRoles(userService.getSetOfRoles(role_id));
         userService.add(user);
         return "redirect:/admin/";
     }
@@ -58,10 +58,10 @@ public class AdminController {
     }
     @PostMapping("/editUser/{id}")
     public String editUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                           @RequestParam ("role_authorities") List<String> role_value){
+                           @RequestParam ("role_authorities") List<Integer> role_id){
         if (bindingResult.hasErrors())
             return "editUser";
-        user.setRoles(userService.getSetOfRoles(role_value));
+        user.setRoles(userService.getSetOfRoles(role_id));
         userService.edit(user);
         return "redirect:/admin/";
     }
