@@ -37,8 +37,6 @@ public class UserService implements UserDetailsService {
         if (userFromDB != null) {
             return false;
         }
-
-        user.setRoles(Collections.singleton(new Role(1, "user")));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return true;
@@ -60,5 +58,13 @@ public class UserService implements UserDetailsService {
 
     public Set<Role> allRoles(){
         return new HashSet<>(roleRepository.findAll());
+    }
+
+    public Set<Role> getSetOfRoles(List<String> role_string) {
+        Set<Role> roles = new HashSet<>();
+        for (String roleOfName : role_string) {
+            roles.add(roleRepository.findRoleByName(roleOfName));
+        }
+        return roles;
     }
 }

@@ -9,17 +9,23 @@
 </head>
 <body>
 <form th:action="@{/admin/addUser}"
-      th:object="${userDto}" method="POST">
-    Username:
-    <input type="text" th:field="*{username}" />
+      th:object="${user}" method="POST">
+    <label for="username">Enter Username:</label>
+    <input type="text" name="name" th:field="*{username}" id="username"/>
     <br/>
-    Password:
-    <input type="text" th:field="*{password}">
     <br/>
-    Email:
-    <input type="text" th:field="*{email}">
+    <label for="password">Enter Password:</label>
+    <input type="text" name="password" th:field="*{password}" id="password"/>
     <br/>
-    <input type="submit" value="Create">
+    <br/>
+    <label for="email">Enter Email:</label>
+    <input type="text" name="email" th:field="*{email}" id="email"/>
+    <br/>
+    <br/>
+    <p>Enter Roles:</p>
+    <input type="checkbox" name="role_authorities" th:each="role : ${roleSet}" th:text="${role.name}" th:value="${role.name}"/>
+
+    <input type="submit" value="Create"/>
 </form>
 
 <br/>

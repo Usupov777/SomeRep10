@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+
+import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,20 +37,18 @@ public class AdminController {
     }
     @GetMapping("/addUser")
     public String showUserAddPage(Model model){
-        UserDto userForm = new UserDto();
-        model.addAttribute(userForm);
+        model.addAttribute("user", new User());
+        Set<Role> roleSet= userService.allRoles();
+        model.addAttribute("roleSet", roleSet);
         return "addUser";
     }
     @PostMapping("/addUser")
-    public String saveUser(Model model,
-                           @ModelAttribute("userForm") UserDto userFormFromModel){
-        String email = userFormFromModel.getEmail();
-        String username = userFormFromModel.getUsername();
-        String password = userFormFromModel.getPassword();
-
-        if (username != null && username.length() > 0 && password != null && password.length() > 0 && email != null && email.length() > 0){
-            userService.add(new User(email,username,password));
-        }
+    public String saveUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+                           @RequestParam ("role_authorities") List<String> role_value){
+        if (bindingResult.hasErrors())
+            return "addUser";
+        user.setRoles(userService.getSetOfRoles(role_value));
+        userService.add(user);
         return "redirect:/admin/";
     }
     @GetMapping("/editUser/{id}")
@@ -59,12 +60,11 @@ public class AdminController {
         return "editUser";
     }
     @PostMapping("/editUser/{id}")
-    public String editUser(@ModelAttribute("user") User user,
-                           @ModelAttribute("roleSet") HashSet<Role> roleSet,
-                           Model model){
-        user.getRoles().clear();
-        user.setRoles(roleSet);
-        System.out.println(roleSet);
+    public String editUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+                           @RequestParam ("role_authorities") List<String> role_value){
+        if (bindingResult.hasErrors())
+            return "editUser";
+        user.setRoles(userService.getSetOfRoles(role_value));
         userService.edit(user);
         return "redirect:/admin/";
     }

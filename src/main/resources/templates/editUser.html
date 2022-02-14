@@ -11,23 +11,25 @@
 <form th:action="@{/admin/editUser/{id}}"
       th:object="${user}" method="POST">
     <input type="hidden" th:field="*{id}">
-    Name:
-    <input type="text" th:field="*{username}" />
+    <label for="username">Enter username:</label>
+    <input type="text" name="name" th:field="*{username}" id="username"/>
     <br/>
-    Surname:
-    <input type="text" th:field="*{password}">
     <br/>
-    Age:
-    <input type="text" th:field="*{email}">
+    <label for="password">Enter password:</label>
+    <input type="text" name="lastname" th:field="*{password}" id="password"/>
     <br/>
-    Roles:
-    <td th:each="role : ${roleSet}">
-        <div>
-            <input type="checkbox" th:name="${roleSet}" th:checked="${#lists.contains(user.roles, role)}"
-                   th:utext="${role}">
-        </div>
-    </td>
-    <input type="submit" value="Edit">
+    <br/>
+    <label for="email">Enter Email:</label>
+    <input type="text" name="email" th:field="*{email}" id="email"/>
+    <br/>
+    <br/>
+    <p>Enter Roles:</p>
+    <input type="checkbox" name="role_authorities" th:each="role :${roleSet}" th:text="${role.name}"
+           th:value="${role.name}" th:checked="${user.roles.contains(role)}"
+    />
+    <br/>
+    <br/>
+    <input type="submit" value="Update"/>
 </form>
 
 <br/>

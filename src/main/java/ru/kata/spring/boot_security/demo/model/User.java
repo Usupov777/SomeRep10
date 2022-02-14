@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -27,18 +28,19 @@ public class User implements UserDetails {
     private String username;
     @Column
     private String password;
-    @Column
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "users_id"), inverseJoinColumns = @JoinColumn(name = "roles_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public User(){
 
     }
 
-    public User(String email, String username, String password) {
+    public User(String email, String username, String password, Set<Role> roles) {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.roles = roles;
     }
 
     @Override
