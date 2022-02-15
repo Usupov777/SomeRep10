@@ -25,9 +25,11 @@ public class UserServiceImpl implements UserService {
         this.roleRepository=roleRepository;
         this.bCryptPasswordEncoder=bCryptPasswordEncoder;
     }
+    @Override
     public List<User> allUsers(){
         return userRepository.findAll();
     }
+    @Override
     public boolean add(User user){
         User userFromDB = userRepository.findUserByUsername(user.getUsername());
 
@@ -38,23 +40,27 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return true;
     }
+    @Override
     public void delete(User user){
         userRepository.delete(user);
     }
+    @Override
     public void edit(User user){
         userRepository.saveAndFlush(user);
     }
+    @Override
     public User getById(int id){
         return userRepository.getById(id);
     }
+    @Override
     public User findUserByUsername(String username){
         return userRepository.findUserByUsername(username);
     }
-
+    @Override
     public Set<Role> allRoles(){
         return new HashSet<>(roleRepository.findAll());
     }
-
+    @Override
     public Set<Role> getSetOfRoles(List<Integer> role_id) {
         Set<Role> roles = new HashSet<>();
         for (Integer idOfRole : role_id) {
