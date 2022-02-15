@@ -4,7 +4,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,24 +18,24 @@ import java.util.Set;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+    public void setUserService(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
 
     @GetMapping("/")
     public String allUsers(Model model){
-        List<User> users = userService.allUsers();
+        List<User> users = userServiceImpl.allUsers();
         model.addAttribute("usersList", users);
         return "users";
     }
     @GetMapping("/addUser")
     public String showUserAddPage(Model model){
         model.addAttribute("user", new User());
-        Set<Role> roleSet= userService.allRoles();
+        Set<Role> roleSet= userServiceImpl.allRoles();
         model.addAttribute("roleSet", roleSet);
         return "addUser";
     }
@@ -44,14 +44,14 @@ public class AdminController {
                            @RequestParam ("role_authorities") List<Integer> role_id){
         if (bindingResult.hasErrors())
             return "addUser";
-        user.setRoles(userService.getSetOfRoles(role_id));
-        userService.add(user);
+        user.setRoles(userServiceImpl.getSetOfRoles(role_id));
+        userServiceImpl.add(user);
         return "redirect:/admin/";
     }
     @GetMapping("/editUser/{id}")
     public String showUserEditPage(@PathVariable(value = "id") int id, Model model){
-        User user = userService.getById(id);
-        Set<Role> roleSet= userService.allRoles();
+        User user = userServiceImpl.getById(id);
+        Set<Role> roleSet= userServiceImpl.allRoles();
         model.addAttribute("user", user);
         model.addAttribute("roleSet", roleSet);
         return "editUser";
@@ -61,15 +61,15 @@ public class AdminController {
                            @RequestParam ("role_authorities") List<Integer> role_id){
         if (bindingResult.hasErrors())
             return "editUser";
-        user.setRoles(userService.getSetOfRoles(role_id));
-        userService.edit(user);
+        user.setRoles(userServiceImpl.getSetOfRoles(role_id));
+        userServiceImpl.edit(user);
         return "redirect:/admin/";
     }
     @GetMapping("/deleteUser/{id}")
     public String deleteUser(@PathVariable(value = "id") int id,
                              Model model){
-        User user = userService.getById(id);
-        userService.delete(user);
+        User user = userServiceImpl.getById(id);
+        userServiceImpl.delete(user);
         return "redirect:/admin/";
     }
 
