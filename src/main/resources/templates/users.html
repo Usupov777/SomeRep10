@@ -1,23 +1,177 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <form th:action="@{/logout}" method="post">
-        <button type="submit">Sign Out</button>
-    </form>
-    <meta charset="UTF-8">
-    <title>Users</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <title>Admin panel</title>
 </head>
 <body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+                <div class="row">
+                    <div class="bg-dark text-white col-12" style="display:inline">
+                    <b class="text-md-left" th:text="${userAuthorised.getUsername()}"/>  with Roles: <b  th:each="role : ${userAuthorised.getRoles()}" th:text="${role.name.toUpperCase() + '&nbsp;'}"/>
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" style="color: gray; float: right;" class="btn btn-link">
+                                Logout
+                            </button>
+                        </form>
+                   </div>
+                </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <ul class="nav nav-pills flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" th:href="@{/admin}">Admin</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/user}">User</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-9">
+                    <h1 class="text-left">
+                        Admin panel
+                    </h1>
+                    <div class="tabbable" id="tabs-59281">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active show" href="#tab1" data-toggle="tab">Users table</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#tab2" data-toggle="tab">Section 2</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="panel-585264">
+                                <p>
+                                <h5 class="text-left">
+                                All users
+                                </h5>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            #
+                                        </th>
+                                        <th>
+                                            Product
+                                        </th>
+                                        <th>
+                                            Payment Taken
+                                        </th>
+                                        <th>
+                                            Status
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each=" user : ${usersList}">
+                                        <td th:text="${user.id}">id</td>
+                                        <td th:text="${user.username}">username</td>
+                                        <td th:text="${user.email}">email</td>
+                                        <td th:text="${user.roles}">roles</td>
+                                        <td>
+                                            <a th:href="@{/admin/deleteUser/{id}(id=${user.id})}">delete</a>
+                                            <a th:href="@{/admin/editUser/{id}(id=${user.id})}">edit</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                </p>
+                            </div>
+                            <div class="tab-pane" id="tab2">
+                                <p>
+                                <form role="form">
+                                    <div class="form-group">
+
+                                        <label for="exampleInputEmail1">
+                                            Email address
+                                        </label>
+                                        <input type="email" class="form-control" id="exampleInputEmail1" />
+                                    </div>
+                                    <div class="form-group">
+
+                                        <label for="exampleInputPassword1">
+                                            Password
+                                        </label>
+                                        <input type="password" class="form-control" id="exampleInputPassword1" />
+                                    </div>
+                                    <div class="form-group">
+
+                                        <label for="exampleInputFile">
+                                            File input
+                                        </label>
+                                        <input type="file" class="form-control-file" id="exampleInputFile" />
+                                        <p class="help-block">
+                                            Example block-level help text here.
+                                        </p>
+                                    </div>
+                                    <div class="checkbox">
+
+                                        <label>
+                                            <input type="checkbox" /> Check me out
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        Submit
+                                    </button>
+                                </form>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a id="modal-233146" href="#modal-container-233146" role="button" class="btn" data-toggle="modal">Launch demo modal</a>
+
+                    <div class="modal fade" id="modal-container-233146" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="myModalLabel">
+                                        Modal title
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    ...
+                                </div>
+                                <div class="modal-footer">
+
+                                    <button type="button" class="btn btn-primary">
+                                        Save changes
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <h1>Users</h1>
 <table th:border="1">
-<tr>
-    <th>id</th>
-    <th>username</th>
-    <th>password</th>
-    <th>email</th>
-    <th>roles</th>
-    <th>action</th>
-</tr>
+    <tr>
+        <th>id</th>
+        <th>username</th>
+        <th>password</th>
+        <th>email</th>
+        <th>roles</th>
+        <th>action</th>
+    </tr>
     <tr th:each=" user : ${usersList}">
         <td th:text="${user.id}">id</td>
         <td th:text="${user.username}">username</td>
@@ -33,5 +187,10 @@
 
 <h2>Add</h2>
 <a th:href="@{/admin/addUser}">Add User</a>
+</div>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
 </body>
 </html>

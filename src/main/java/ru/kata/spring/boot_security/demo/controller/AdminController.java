@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
@@ -29,8 +30,10 @@ public class AdminController {
 
 
     @GetMapping("/")
-    public String allUsers(Model model){
+    public String allUsers(Principal principal,Model model){
+        User user = userService.findUserByUsername(principal.getName());
         List<User> users = userService.allUsers();
+        model.addAttribute("userAuthorised", user);
         model.addAttribute("usersList", users);
         return "users";
     }
