@@ -18,8 +18,6 @@ import java.util.Set;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-// Я использовал конкретную реализацию интерфейса из-за того, что забыл убрать аннотацию
-// и спринг ругался, что у меня несколько бинов юзер сервиса ^_^'
     private UserService userService;
 
     @Autowired
