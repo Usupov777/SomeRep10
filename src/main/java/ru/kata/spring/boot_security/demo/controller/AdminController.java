@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
-import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,10 +30,13 @@ public class AdminController {
 
     @GetMapping("/")
     public String allUsers(Principal principal,Model model){
-        User user = userService.findUserByUsername(principal.getName());
+        User user = userService.findUserByEmail(principal.getName());
         List<User> users = userService.allUsers();
         model.addAttribute("userAuthorised", user);
         model.addAttribute("usersList", users);
+        model.addAttribute("newUser", new User());
+        Set<Role> roleSet= userService.allRoles();
+        model.addAttribute("roleSet", roleSet);
         return "users";
     }
     @GetMapping("/addUser")
@@ -63,10 +65,12 @@ public class AdminController {
     }
     @PostMapping("/editUser/{id}")
     public String editUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                           @RequestParam ("role_authorities") List<Integer> role_id){
+                           @RequestParam (value = "role_authorities", required = false) List<Integer> role_id){
         if (bindingResult.hasErrors())
             return "editUser";
-        user.setRoles(userService.getSetOfRoles(role_id));
+        if(role_id != null){
+            user.setRoles(userService.getSetOfRoles(role_id));
+        }
         userService.edit(user);
         return "redirect:/admin/";
     }

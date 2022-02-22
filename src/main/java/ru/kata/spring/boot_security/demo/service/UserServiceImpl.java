@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public boolean add(User user){
-        User userFromDB = userRepository.findUserByUsername(user.getUsername());
+        User userFromDB = userRepository.findUserByEmail(user.getEmail());
 
         if (userFromDB != null) {
             return false;
@@ -46,6 +47,11 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public void edit(User user){
+        User userFromDB = userRepository.findUserByEmail(user.getEmail());
+
+        if (!Objects.equals(userFromDB.getPassword(), user.getPassword())) {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        }
         userRepository.saveAndFlush(user);
     }
     @Override
@@ -53,8 +59,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.getById(id);
     }
     @Override
-    public User findUserByUsername(String username){
-        return userRepository.findUserByUsername(username);
+    public User findUserByEmail(String email){
+        return userRepository.findUserByEmail(email);
     }
     @Override
     public Set<Role> allRoles(){
@@ -70,7 +76,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findUserByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findUserByEmail(email);
     }
 }

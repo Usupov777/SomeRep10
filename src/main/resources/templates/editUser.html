@@ -11,16 +11,24 @@
 <form th:action="@{/admin/editUser/{id}}"
       th:object="${user}" method="POST">
     <input type="hidden" th:field="*{id}">
-    <label for="username">Enter username:</label>
-    <input type="text" name="name" th:field="*{username}" id="username"/>
+    <label for="firstName">Enter first name:</label>
+    <input type="text" name="firstName" th:field="*{firstName}" id="firstName"/>
+    <br/>
+    <br/>
+    <label for="lastName">Enter last name:</label>
+    <input type="text" name="lastName" th:field="*{lastName}" id="lastName"/>
+    <br/>
+    <br/>
+    <label for="age">Enter age:</label>
+    <input type="number" name="age" th:field="*{age}" id="age"/>
+    <br/>
+    <label for="email">Enter email:</label>
+    <input type="text" name="email" th:field="*{email}" id="email"/>
     <br/>
     <br/>
     <label for="password">Enter password:</label>
-    <input type="text" name="lastname" th:field="*{password}" id="password"/>
+    <input type="text" name="password" th:field="*{password}" id="password"/>
     <br/>
-    <br/>
-    <label for="email">Enter Email:</label>
-    <input type="text" name="email" th:field="*{email}" id="email"/>
     <br/>
     <br/>
     <p>Enter Roles:</p>

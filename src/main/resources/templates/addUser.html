@@ -11,7 +11,7 @@
 <form th:action="@{/admin/addUser}"
       th:object="${user}" method="POST">
     <label for="username">Enter Username:</label>
-    <input type="text" name="name" th:field="*{username}" id="username"/>
+    <input type="text" name="name" th:field="*{email}" id="username"/>
     <br/>
     <br/>
     <label for="password">Enter Password:</label>
@@ -19,7 +19,7 @@
     <br/>
     <br/>
     <label for="email">Enter Email:</label>
-    <input type="text" name="email" th:field="*{email}" id="email"/>
+    <input type="text" name="email" th:field="*{getFirstName}" id="email"/>
     <br/>
     <br/>
     <p>Enter Roles:</p>

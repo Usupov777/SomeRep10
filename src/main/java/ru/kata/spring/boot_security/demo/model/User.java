@@ -22,9 +22,13 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
-    private String email;
+    private String firstName;
     @Column
-    private String username;
+    private String lastName;
+    @Column
+    private int age;
+    @Column
+    private String email;
     @Column
     private String password;
     @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
@@ -35,9 +39,11 @@ public class User implements UserDetails {
 
     }
 
-    public User(String email, String username, String password, Set<Role> roles) {
+    public User(String firstName, String lastName, int age, String email, String password, Set<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
         this.email = email;
-        this.username = username;
         this.password = password;
         this.roles = roles;
     }
@@ -46,8 +52,10 @@ public class User implements UserDetails {
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
                 ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }
@@ -57,17 +65,22 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(email, user.email) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(roles, user.roles);
+        return getAge() == user.getAge() && Objects.equals(getFirstName(), user.getFirstName()) && Objects.equals(getLastName(), user.getLastName()) && getEmail().equals(user.getEmail()) && getPassword().equals(user.getPassword()) && Objects.equals(getRoles(), user.getRoles());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email, getUsername(), getPassword(), roles);
+        return Objects.hash(getFirstName(), getLastName(), getAge(), getEmail(), getPassword(), getRoles());
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     @Override
