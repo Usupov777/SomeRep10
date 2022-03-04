@@ -16,8 +16,9 @@ import java.util.List;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/asdfjain")
 public class AdminController {
+    /*
     private UserService userService;
 
     @Autowired
@@ -79,5 +80,7 @@ public class AdminController {
         userService.delete(user);
         return "redirect:/admin/";
     }
+
+ */
 
 }

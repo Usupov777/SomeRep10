@@ -21,8 +21,6 @@ public class Role implements GrantedAuthority {
     @Id
     private int id;
     private String name;
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
     public Role() {
     }
 
@@ -40,7 +38,7 @@ public class Role implements GrantedAuthority {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Role role = (Role) o;
-        return getName().equals(role.getName()) && Objects.equals(getUsers(), role.getUsers());
+        return getName().equals(role.getName());
     }
 
     @Override
