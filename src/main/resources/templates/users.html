@@ -62,7 +62,7 @@
                                 <h5 class="text-left" style="background-color: #f8f9fa">
                                     All users
                                 </h5>
-                                <table class="table">
+                             <!--   <table class="table">
                                     <thead>
                                     <tr>
                                         <th>
@@ -297,7 +297,7 @@
                                             </div>
                                         </tr>
                                     </tbody>
-                                </table>
+                                </table> -->
                                 <table class="table" id="userTable">
                                     <thead>
                                     <tr>
@@ -329,24 +329,6 @@
                                     </tr>
                                     </thead>
                                     <tbody id="userTableBody">
-                                    <tr th:each=" user : ${usersList}">
-                                        <td th:text="${user.id}">id</td>
-                                        <td th:text="${user.firstName}">first name</td>
-                                        <td th:text="${user.lastName}">last name</td>
-                                        <td th:text="${user.age}">age</td>
-                                        <td th:text="${user.email}">email</td>
-                                        <td th:text="${user.roles}">roles</td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" id="editButton">
-                                                Edit
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" id="deleteButton">
-                                                Delete
-                                            </button>
-                                        </td>
-                                    </tr>
                                     </tbody>
                                 </table>
                                 </p>
@@ -398,6 +380,85 @@
                                     </form>
                                 </div>
                             </div>
+                            <div class="modal fade" id="editModal" role="dialog"
+                                 tabindex="-1"
+                                 aria-labelledby="editModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">
+                                                Edit user
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body col-md text-center">
+                                            <form id="editForm">
+                                                <div class="form-group">
+                                                    <p><strong>ID</strong></p>
+                                                    <label for="ID1"></label>
+                                                    <input class="form-control" type="text"
+                                                           name="id"
+                                                           id="ID1" readonly/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <p><strong>First name</strong></p>
+                                                    <label for="editedFirstName1"></label>
+                                                    <input class="form-control" type="text"
+                                                           id="editedFirstName1"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <p><strong>Last name</strong></p>
+                                                    <label for="editedLastName1"></label>
+                                                    <input class="form-control" type="text"
+                                                           id="editedLastName1"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <p><strong>Age</strong></p>
+                                                    <label for="editedAge1"></label>
+                                                    <input class="form-control" type="number"
+                                                           id="editedAge1"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <p><strong>Email</strong></p>
+                                                    <label for="editedEmail1"></label>
+                                                    <input class="form-control" type="text"
+                                                           id="editedEmail1"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <p><strong>Password</strong></p>
+                                                    <label for="editedPassword1"></label>
+                                                    <input class="form-control" type="text"
+                                                           id="editedPassword1"/>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <p><strong>Role</strong></p>
+                                                    <label for="editedRoles1"></label>
+                                                    <select multiple class="form-control"
+                                                            size="2"
+                                                            id="editedRoles1"
+                                                            name="role_authorities">
+                                                    </select>
+                                                </div>
+
+                                                <div class="modal-footer">
+
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">
+                                                        Close
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary">
+                                                        Edit
+                                                    </button>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -410,13 +471,30 @@
     const urlRoles = 'http://localhost:8080/api/admin/role/'
     const addUserForm = document.getElementById('addUserForm')
 
-    const roleSetBuild = async (roles) => {
-        const userRolesList = document.getElementById('roles')
-        let roleList = ''
-        roles.forEach(role => {
-            roleList += `<option value="${role.id}">${role.name}</option>`
+    const editButton = document.getElementById('editButton')
+    const editModal = document.getElementById('editModal')
+    const editForm = document.getElementById('editForm')
+
+    const on = (element, event, selector, handler) => {
+        element.addEventListener(event, e => {
+            if (e.target.closest(selector)) {
+                handler(e)
+            }
         })
-        userRolesList.innerHTML = roleList
+    }
+
+
+
+    function showRoleList(target) {
+        fetch(urlRoles)
+            .then(res => res.json())
+            .then(roles => {
+                let roleList = ''
+                roles.forEach(role => {
+                    roleList += `<option value="${role.id}">${role.name}</option>`
+                })
+                target.innerHTML = roleList
+            })
     }
     function getSelectedValues(select) {
         let result = []
@@ -430,6 +508,28 @@
         }
         return result
     }
+    function showEditModal(id) {
+        const idValue = document.getElementById('ID1')
+        const firstNameValue = document.getElementById('editedFirstName1')
+        const lastNameValue = document.getElementById('editedLastName1')
+        const ageValue = document.getElementById('editedAge1')
+        const emailValue = document.getElementById('editedEmail1')
+        const passwordValue = document.getElementById('editedPassword1')
+        const roleValue = document.getElementById('editedRoles1')
+
+        fetch(url +'user/' + id)
+            .then(res => res.json())
+            .then(user => {
+                idValue.value = user.id
+                firstNameValue.value = user.firstName
+                lastNameValue.value = user.lastName
+                ageValue.value = user.age
+                emailValue.value = user.email
+                passwordValue.value = user.password
+                showRoleList(roleValue)
+            })
+    }
+
     const userTableBuild = () => {
         const userTableBody = document.getElementById('userTableBody')
         let result = ''
@@ -446,7 +546,7 @@
                             <td>${user.email}</td>
                             <td>${roles}</td>
                             <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" id="editButton">
+                                <button type="submit" class="btnEdit btn btn-primary" data-toggle="modal" data-target="#editModal">
                                     Edit
                                 </button>
                             </td>
@@ -461,12 +561,22 @@
         })
 
     }
+    on(document, 'click', '.btnEdit', e => {
+
+        e.preventDefault()
+        let target = e.target.parentNode.parentNode
+
+        let idUserForEdit = target.children[0].innerHTML
+
+        showEditModal(idUserForEdit)
+    })
      fetch(url)
         .then(res => res.json())
         .then(data => userTableBuild(data))
-    fetch(urlRoles)
-        .then(res => res.json())
-        .then(data => roleSetBuild(data))
+
+    showRoleList(document.getElementById('roles'))
+
+
     addUserForm.addEventListener('submit', (e) => {
         e.preventDefault()
         const firstNameValue = document.getElementById('firstName')
@@ -491,6 +601,39 @@
             })
         }
             )
+            .then(res => res.json())
+            .then(data => {
+                const dataArr = []
+                dataArr.push(data)
+                userTableBuild(dataArr)
+            })
+    })
+    editForm.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const id = document.getElementById('ID1')
+        const firstNameValue = document.getElementById('editedFirstName1')
+        const lastNameValue = document.getElementById('editedLastName1')
+        const ageValue = document.getElementById('editedAge1')
+        const emailValue = document.getElementById('editedEmail1')
+        const passwordValue = document.getElementById('editedPassword1')
+        const roleValue = document.getElementById('editedRoles1')
+        let setRoles = getSelectedValues(roleValue)
+        fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: id.value,
+                    firstName: firstNameValue.value,
+                    lastName: lastNameValue.value,
+                    age: ageValue.value,
+                    email: emailValue.value,
+                    password: passwordValue.value,
+                    roles: setRoles
+                })
+            }
+        )
             .then(res => res.json())
             .then(data => {
                 const dataArr = []
