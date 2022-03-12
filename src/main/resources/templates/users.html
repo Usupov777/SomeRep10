@@ -62,242 +62,6 @@
                                 <h5 class="text-left" style="background-color: #f8f9fa">
                                     All users
                                 </h5>
-                             <!--   <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            ID
-                                        </th>
-                                        <th>
-                                            First Name
-                                        </th>
-                                        <th>
-                                            Last Name
-                                        </th>
-                                        <th>
-                                            Age
-                                        </th>
-                                        <th>
-                                            Email
-                                        </th>
-                                        <th>
-                                            Role
-                                        </th>
-                                        <th>
-                                            Edit
-                                        </th>
-                                        <th>
-                                            Delete
-                                        </th>
-
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each=" user : ${usersList}">
-                                            <td th:text="${user.id}">id</td>
-                                            <td th:text="${user.firstName}">first name</td>
-                                            <td th:text="${user.lastName}">last name</td>
-                                            <td th:text="${user.age}">age</td>
-                                            <td th:text="${user.email}">email</td>
-                                            <td th:text="${user.roles}">roles</td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                        th:data-target="${'#editModal' + user.id}">
-                                                    Edit
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                        th:data-target="${'#deleteModal' + user.id}">
-                                                    Delete
-                                                </button>
-                                            </td>
-                                            <div class="modal fade" th:id="${'editModal' + user.id}" role="dialog"
-                                                 tabindex="-1"
-                                                 aria-labelledby="editModalLabel"
-                                                 aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">
-                                                                Edit user
-                                                            </h5>
-                                                            <button type="button" class="close" data-dismiss="modal">
-                                                                <span aria-hidden="true">×</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body col-md text-center">
-                                                            <form th:action="@{/admin/editUser/{id}(id=${user.id})}"
-                                                                  th:object="${user}" method="POST"
-                                                                  th:id="${'formEdit' + user.id}">
-                                                                <div class="form-group">
-                                                                    <p><strong>ID</strong></p>
-                                                                    <label for="ID"></label>
-                                                                    <input class="form-control" th:type="text"
-                                                                           th:name="ID"
-                                                                           th:value="${user.id}"
-                                                                           id="ID" readonly/>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <p><strong>First name</strong></p>
-                                                                    <label for="editedFirstName"></label>
-                                                                    <input class="form-control" th:type="text"
-                                                                           th:name="firstName"
-                                                                           th:value="${user.firstName}"
-                                                                           id="editedFirstName"/>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <p><strong>Last name</strong></p>
-                                                                    <label for="editedLastName"></label>
-                                                                    <input class="form-control" th:type="text"
-                                                                           th:name="lastName"
-                                                                           th:value="${user.lastName}"
-                                                                           id="editedLastName"/>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <p><strong>Age</strong></p>
-                                                                    <label for="editedAge"></label>
-                                                                    <input class="form-control" th:type="number"
-                                                                           th:name="age"
-                                                                           th:value="${user.age}" id="editedAge"/>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <p><strong>Email</strong></p>
-                                                                    <label for="editedEmail"></label>
-                                                                    <input class="form-control" th:type="text"
-                                                                           th:name="email"
-                                                                           th:value="${user.email}" id="editedEmail"/>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <p><strong>Password</strong></p>
-                                                                    <label for="editedPassword"></label>
-                                                                    <input class="form-control" th:type="text"
-                                                                           th:name="password"
-                                                                           th:value="${user.password}"
-                                                                           id="editedPassword"/>
-                                                                </div>
-                                                                <div class="checkbox">
-                                                                    <p><strong>Role</strong></p>
-                                                                    <label for="editedRoles"></label>
-                                                                    <select multiple class="form-control"
-                                                                            size="2"
-                                                                            id="editedRoles"
-                                                                            name="role_authorities">
-                                                                        <option th:each="role : ${roleSet}"
-                                                                                th:text="${role.name}"
-                                                                                th:value="${role.id}"
-                                                                                th:checked="${user.roles.contains(role)}"></option>
-                                                                    </select>
-                                                                </div>
-
-                                                                <div class="modal-footer">
-
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                            data-dismiss="modal">
-                                                                        Close
-                                                                    </button>
-                                                                    <button type="submit" class="btn btn-primary">
-                                                                        Edit
-                                                                    </button>
-
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal fade" th:id="${'deleteModal' + user.id}" role="dialog"
-                                                 tabindex="-1"
-                                                 aria-labelledby="deleteModalLabel"
-                                                 aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">
-                                                                Delete user
-                                                            </h5>
-                                                            <button type="button" class="close" data-dismiss="modal">
-                                                                <span aria-hidden="true">×</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body col-md text-center">
-                                                            <form th:action="@{/admin/deleteUser/{id}(id=${user.id})}"
-                                                                  th:object="${user}" method="GET"
-                                                                  th:id="${'formDelete' + user.id}">
-                                                                <div class="form-group">
-                                                                    <p><strong>ID</strong></p>
-                                                                    <label for="deletedID"></label>
-                                                                    <input class="form-control" th:type="text"
-                                                                           th:name="ID"
-                                                                           th:value="${user.id}"
-                                                                           id="deletedID" readonly/>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <p><strong>First name</strong></p>
-                                                                    <label for="editedFirstName"></label>
-                                                                    <input class="form-control" th:type="text"
-                                                                           th:name="deletedfirstName"
-                                                                           th:value="${user.firstName}"
-                                                                           id="deletedFirstName" readonly/>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <p><strong>Last name</strong></p>
-                                                                    <label for="deletedLastName"></label>
-                                                                    <input class="form-control" th:type="text"
-                                                                           th:name="lastName"
-                                                                           th:value="${user.lastName}"
-                                                                           id="deletedLastName" readonly/>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <p><strong>Age</strong></p>
-                                                                    <label for="deletedAge"></label>
-                                                                    <input class="form-control" th:type="number"
-                                                                           th:name="age"
-                                                                           th:value="${user.age}" id="deletedAge"
-                                                                           readonly/>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <p><strong>Email</strong></p>
-                                                                    <label for="deletedEmail"></label>
-                                                                    <input class="form-control" th:type="text"
-                                                                           th:name="email"
-                                                                           th:value="${user.email}" id="deletedEmail"
-                                                                           readonly/>
-                                                                </div>
-                                                                <div class="checkbox">
-                                                                    <p><strong>Role</strong></p>
-                                                                    <label for="deletedRoles"></label>
-                                                                    <select multiple class="form-control"
-                                                                            size="2"
-                                                                            id="deletedRoles"
-                                                                            name="role_authorities">
-                                                                        <option th:each="role : ${roleSet}"
-                                                                                th:text="${role.name}"
-                                                                                th:value="${role.id}"
-                                                                                th:checked="${user.roles.contains(role)}"
-                                                                                disabled></option>
-                                                                    </select>
-                                                                </div>
-
-                                                                <div class="modal-footer">
-
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                            data-dismiss="modal">
-                                                                        Close
-                                                                    </button>
-                                                                    <button type="submit" class="btn btn-danger">
-                                                                        Delete
-                                                                    </button>
-
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </tr>
-                                    </tbody>
-                                </table> -->
                                 <table class="table" id="userTable">
                                     <thead>
                                     <tr>
@@ -398,47 +162,47 @@
                                             <form id="editForm">
                                                 <div class="form-group">
                                                     <p><strong>ID</strong></p>
-                                                    <label for="ID1"></label>
+                                                    <label for="ID"></label>
                                                     <input class="form-control" type="text"
                                                            name="id"
-                                                           id="ID1" readonly/>
+                                                           id="ID" readonly/>
                                                 </div>
                                                 <div class="form-group">
                                                     <p><strong>First name</strong></p>
-                                                    <label for="editedFirstName1"></label>
+                                                    <label for="editedFirstName"></label>
                                                     <input class="form-control" type="text"
-                                                           id="editedFirstName1"/>
+                                                           id="editedFirstName"/>
                                                 </div>
                                                 <div class="form-group">
                                                     <p><strong>Last name</strong></p>
-                                                    <label for="editedLastName1"></label>
+                                                    <label for="editedLastName"></label>
                                                     <input class="form-control" type="text"
-                                                           id="editedLastName1"/>
+                                                           id="editedLastName"/>
                                                 </div>
                                                 <div class="form-group">
                                                     <p><strong>Age</strong></p>
-                                                    <label for="editedAge1"></label>
+                                                    <label for="editedAge"></label>
                                                     <input class="form-control" type="number"
-                                                           id="editedAge1"/>
+                                                           id="editedAge"/>
                                                 </div>
                                                 <div class="form-group">
                                                     <p><strong>Email</strong></p>
-                                                    <label for="editedEmail1"></label>
+                                                    <label for="editedEmail"></label>
                                                     <input class="form-control" type="text"
-                                                           id="editedEmail1"/>
+                                                           id="editedEmail"/>
                                                 </div>
                                                 <div class="form-group">
                                                     <p><strong>Password</strong></p>
-                                                    <label for="editedPassword1"></label>
+                                                    <label for="editedPassword"></label>
                                                     <input class="form-control" type="text"
-                                                           id="editedPassword1"/>
+                                                           id="editedPassword"/>
                                                 </div>
                                                 <div class="checkbox">
                                                     <p><strong>Role</strong></p>
-                                                    <label for="editedRoles1"></label>
+                                                    <label for="editedRoles"></label>
                                                     <select multiple class="form-control"
                                                             size="2"
-                                                            id="editedRoles1"
+                                                            id="editedRoles"
                                                             name="role_authorities">
                                                     </select>
                                                 </div>
@@ -459,6 +223,79 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="modal fade" id="deleteModal" role="dialog"
+                                 tabindex="-1"
+                                 aria-labelledby="editModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">
+                                                Edit user
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body col-md text-center">
+                                            <form id="deleteForm">
+                                                <div class="form-group">
+                                                    <p><strong>ID</strong></p>
+                                                    <label for="deleteID"></label>
+                                                    <input class="form-control" type="text"
+                                                           name="id"
+                                                           id="deleteID" readonly/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <p><strong>First name</strong></p>
+                                                    <label for="deletedFirstName"></label>
+                                                    <input class="form-control" type="text"
+                                                           id="deletedFirstName" readonly/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <p><strong>Last name</strong></p>
+                                                    <label for="deletedLastName"></label>
+                                                    <input class="form-control" type="text"
+                                                           id="deletedLastName" readonly/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <p><strong>Age</strong></p>
+                                                    <label for="deletedAge"></label>
+                                                    <input class="form-control" type="number"
+                                                           id="deletedAge" readonly/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <p><strong>Email</strong></p>
+                                                    <label for="deletedEmail"></label>
+                                                    <input class="form-control" type="text"
+                                                           id="deletedEmail" readonly/>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <p><strong>Role</strong></p>
+                                                    <label for="editedRoles"></label>
+                                                    <select multiple class="form-control"
+                                                            size="2"
+                                                            id="deletedRoles"
+                                                            name="role_authorities">
+                                                    </select>
+                                                </div>
+
+                                                <div class="modal-footer">
+
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">
+                                                        Close
+                                                    </button>
+                                                    <button type="submit" class="btn btn-danger">
+                                                        Delete
+                                                    </button>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -466,182 +303,7 @@
         </div>
     </div>
 </div>
-<script>
-    const url = 'http://localhost:8080/api/admin/'
-    const urlRoles = 'http://localhost:8080/api/admin/role/'
-    const addUserForm = document.getElementById('addUserForm')
-
-    const editButton = document.getElementById('editButton')
-    const editModal = document.getElementById('editModal')
-    const editForm = document.getElementById('editForm')
-
-    const on = (element, event, selector, handler) => {
-        element.addEventListener(event, e => {
-            if (e.target.closest(selector)) {
-                handler(e)
-            }
-        })
-    }
-
-
-
-    function showRoleList(target) {
-        fetch(urlRoles)
-            .then(res => res.json())
-            .then(roles => {
-                let roleList = ''
-                roles.forEach(role => {
-                    roleList += `<option value="${role.id}">${role.name}</option>`
-                })
-                target.innerHTML = roleList
-            })
-    }
-    function getSelectedValues(select) {
-        let result = []
-        let options = select && select.options
-        let opt
-        for (let i = 0, iLen = options.length; i < iLen; i++) {
-            opt = options[i]
-            if(opt.selected){
-                result.push(parseInt(opt.value))
-            }
-        }
-        return result
-    }
-    function showEditModal(id) {
-        const idValue = document.getElementById('ID1')
-        const firstNameValue = document.getElementById('editedFirstName1')
-        const lastNameValue = document.getElementById('editedLastName1')
-        const ageValue = document.getElementById('editedAge1')
-        const emailValue = document.getElementById('editedEmail1')
-        const passwordValue = document.getElementById('editedPassword1')
-        const roleValue = document.getElementById('editedRoles1')
-
-        fetch(url +'user/' + id)
-            .then(res => res.json())
-            .then(user => {
-                idValue.value = user.id
-                firstNameValue.value = user.firstName
-                lastNameValue.value = user.lastName
-                ageValue.value = user.age
-                emailValue.value = user.email
-                passwordValue.value = user.password
-                showRoleList(roleValue)
-            })
-    }
-
-    const userTableBuild = () => {
-        const userTableBody = document.getElementById('userTableBody')
-        let result = ''
-        fetch(url)
-        .then(res => res.json())
-        .then(users => {
-            users.forEach(user => {
-                let roles = user.roles.map(obj =>`${obj.name}`).join(", ")
-                result +=  `<tr>
-                            <td>${user.id}</td>
-                            <td>${user.firstName}</td>
-                            <td>${user.lastName}</td>
-                            <td>${user.age}</td>
-                            <td>${user.email}</td>
-                            <td>${roles}</td>
-                            <td>
-                                <button type="submit" class="btnEdit btn btn-primary" data-toggle="modal" data-target="#editModal">
-                                    Edit
-                                </button>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-danger" data-toggle="modal" id="deleteButton">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>`
-            })
-            userTableBody.innerHTML = result
-        })
-
-    }
-    on(document, 'click', '.btnEdit', e => {
-
-        e.preventDefault()
-        let target = e.target.parentNode.parentNode
-
-        let idUserForEdit = target.children[0].innerHTML
-
-        showEditModal(idUserForEdit)
-    })
-     fetch(url)
-        .then(res => res.json())
-        .then(data => userTableBuild(data))
-
-    showRoleList(document.getElementById('roles'))
-
-
-    addUserForm.addEventListener('submit', (e) => {
-        e.preventDefault()
-        const firstNameValue = document.getElementById('firstName')
-        const lastNameValue = document.getElementById('lastName')
-        const ageValue = document.getElementById('age')
-        const emailValue = document.getElementById('email')
-        const passwordValue = document.getElementById('password')
-        const roleValue = document.getElementById('roles')
-        let setRoles = getSelectedValues(roleValue)
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                firstName: firstNameValue.value,
-                lastName: lastNameValue.value,
-                age: ageValue.value,
-                email: emailValue.value,
-                password: passwordValue.value,
-                roles: setRoles
-            })
-        }
-            )
-            .then(res => res.json())
-            .then(data => {
-                const dataArr = []
-                dataArr.push(data)
-                userTableBuild(dataArr)
-            })
-    })
-    editForm.addEventListener('submit', (e) => {
-        e.preventDefault()
-        const id = document.getElementById('ID1')
-        const firstNameValue = document.getElementById('editedFirstName1')
-        const lastNameValue = document.getElementById('editedLastName1')
-        const ageValue = document.getElementById('editedAge1')
-        const emailValue = document.getElementById('editedEmail1')
-        const passwordValue = document.getElementById('editedPassword1')
-        const roleValue = document.getElementById('editedRoles1')
-        let setRoles = getSelectedValues(roleValue)
-        fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: id.value,
-                    firstName: firstNameValue.value,
-                    lastName: lastNameValue.value,
-                    age: ageValue.value,
-                    email: emailValue.value,
-                    password: passwordValue.value,
-                    roles: setRoles
-                })
-            }
-        )
-            .then(res => res.json())
-            .then(data => {
-                const dataArr = []
-                dataArr.push(data)
-                userTableBuild(dataArr)
-            })
-    })
-
+<script src="/main.js">
 </script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

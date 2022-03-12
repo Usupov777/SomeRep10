@@ -32,9 +32,9 @@ public class UserRestController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping("/getOne/{id}")
+    @GetMapping("/{id}")    
     public ResponseEntity<User> getUserById(@PathVariable("id") Integer id) {
-        User user = userService.getById(id);
+        User user = userService.findUserById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 

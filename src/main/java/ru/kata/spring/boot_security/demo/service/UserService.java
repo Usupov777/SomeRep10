@@ -19,4 +19,5 @@ public interface UserService extends UserDetailsService {
     User findUserByEmail(String email);
     Set<Role> allRoles();
     Set<Role> getSetOfRoles(List<Integer> role_id);
+    User findUserById(Integer id);
 }
