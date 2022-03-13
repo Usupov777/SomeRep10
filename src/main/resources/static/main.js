@@ -165,6 +165,7 @@ addUserForm.addEventListener('submit', (e) => {
             dataArr.push(data)
             userTableBuild(dataArr)
         })
+        .then($('#MyTabs li:first-child a').tab('show'))
     firstNameValue.value = ''
     lastNameValue.value = ''
     ageValue.value = ''
